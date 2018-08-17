@@ -1,12 +1,13 @@
 def leerArchivo():
-    encontrada = False
-    archivo = open("texto1.txt", "r")
+    numPalabras = 0
+    dictionary = {}
+    keys = range(numPalabras)
+    str = open("texto1.txt", "r")
+    sub = "victor"
 
-    for palabra in archivo:
-        if palabra == "victor":
-            encontrada = True
-        print(palabra)
-        print(encontrada)
+    for palabra in str:
+        print (palabra)
+
 
 if __name__ == "__main__":
     print('Leyendo Archivo...')
