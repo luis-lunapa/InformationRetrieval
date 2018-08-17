@@ -1,13 +1,21 @@
 def leerArchivo():
-    numPalabras = 0
+    salida = []
+    with open("documento1.txt", "r") as archivo:
+        lineas = [linea.split() for linea in archivo]
+
+    for linea in lineas:
+        salida += linea
+
+    #print(salida)
+
     dictionary = {}
+    numPalabras = (len(salida))
     keys = range(numPalabras)
-    str = open("texto1.txt", "r")
-    sub = "victor"
+    values = salida
 
-    for palabra in str:
-        print (palabra)
-
+    for indice in keys:
+        dictionary[indice] = values[indice]
+    print(dictionary)
 
 if __name__ == "__main__":
     print('Leyendo Archivo...')
