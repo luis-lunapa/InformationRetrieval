@@ -1,6 +1,6 @@
-documentsDictionary = { "texto.txt" :0,
-                        "texto1.txt" :1,
-                        "texto2.txt" :2
+documentsDictionary = { "documento1.txt" :0,
+                        "documento2.txt" :1,
+                        "documento3.txt" :2
                         }
 
 def leerArchivo():
@@ -23,10 +23,10 @@ def leerArchivo():
                     dictionary[palabra] = [documentsDictionary[documento]]
     print(dictionary)
 
-    aBuscar = input("Escribe la palabra a buscar: ")
-    encontrada = False
-
-    print(dictionary.get(aBuscar))
+    while(True):
+        aBuscar = input("Escribe la palabra a buscar: ")
+        encontrada = False
+        print(dictionary.get(aBuscar))
 
 
 if __name__ == "__main__":
