@@ -1,6 +1,7 @@
 documentsDictionary = { "texto.txt" :0,
                         "texto1.txt" :1,
                         "texto2.txt" :2
+                        "cambios.txt": 3
                         }
 
 def leerArchivo():
