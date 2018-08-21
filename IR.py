@@ -3,6 +3,8 @@ documentsDictionary = { "documento1.txt" :0,
                         "documento3.txt" :2
                         }
 
+
+
 def leerArchivo():
     dictionary = {}
 
@@ -14,6 +16,7 @@ def leerArchivo():
             for linea in lineas:
                 palabrasSinToken += linea
             #print(palabrasSinToken)
+
 
             for palabra in palabrasSinToken:
                 if palabra in dictionary:
@@ -31,4 +34,5 @@ def leerArchivo():
 
 if __name__ == "__main__":
     print('Leyendo Archivo...')
+    print('cambios')
     leerArchivo()
