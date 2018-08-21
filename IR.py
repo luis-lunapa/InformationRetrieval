@@ -15,6 +15,7 @@ def leerArchivo():
                 palabrasSinToken += linea
             #print(palabrasSinToken)
 
+
             for palabra in palabrasSinToken:
                 if palabra in dictionary:
                     if not (documentsDictionary[documento] in dictionary[palabra]):
@@ -31,4 +32,5 @@ def leerArchivo():
 
 if __name__ == "__main__":
     print('Leyendo Archivo...')
+    print('cambios')
     leerArchivo()
