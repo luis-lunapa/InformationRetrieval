@@ -1,57 +1,96 @@
+# Creamos la clase node
 class node:
-    def __init__(self):
-        self.data = None # contains the data
-        self.next = None # contains the reference to the next node
+    def __init__(self, data = None, next = None):
+        self.data = data
+        self.next = next
 
-
+# Creamos la clase linked_list
 class linked_list:
     def __init__(self):
-        self.current_node = None
+        self.head = None
 
-    def add_node(self, data):
-        new_node = node()       # create a new node
-        new_node.data = data
-        new_node.next = self.current_node # link the new node to the 'previous' node.
-        self.current_node = new_node #  set the current node to the new one.
+    # Método para agregar elementos en el frente de la linked list
+    def add_at_front(self, data):
+        self.head = node(data=data, next=self.head)
 
-    def list_print(self):
-        node = self.current_node            # cant point to ll!
-        while node:
-            print (node.data)
+    # Método para verificar si la estructura de datos esta vacia
+    def is_empty(self):
+        return self.head == None
+
+    # Método para agregar elementos al final de la linked list
+    def agregarNodo(self, data):
+        if not self.head:
+            self.head = node(data=data)
+            return
+        curr = self.head
+        while curr.next:
+            curr = curr.next
+        curr.next = node(data=data)
+
+    # Método para obtener el ultimo nodo
+    def get_last_node(self):
+        temp = self.head
+        while(temp.next is not None):
+            temp = temp.next
+        return temp.data
+
+    # Método para imprimir la lista de nodos
+    def imprimirLinkedList( self ):
+        node = self.head
+        while node != None:
+            print(node.data, end =" => ")
             node = node.next
 
 
 
-linkedList = linked_list()
 
 
-documentsDictionary = { "texto.txt" :0,
-                        "texto1.txt" :1,
-                        "texto2.txt" :2
+documentsDictionary = { "1.txt" :1,
+                        "2.txt" :2,
+                        "3.txt" :3
                         }
 
+    #Meter todas las palabras en un arreglo
+    #Eliminar duplicados en un array.
+    #
 
-def leerArchivo():
-    dictionary = {}
-    for documento in documentsDictionary:                 #Iteramos sobre cada documento en el documentsDictionary.
-        palabrasSinToken = []                             #Creamos arreglo de palabras sin tokenizar.
+#Abrir documentos
+
+
+def leerArchivos():
+    #arregloGeneral = []
+    #for documento, indice in documentsDictionary:
+    #    arregloGeneral = []
+    #    with open(documento, "r") as archivo:
+    #        arregloGeneral += [palabra for linea in archivo for palabra in linea.split() ]
+    #    return arregloGeneral
+
+    arregloGeneral = []
+    diccionarioSinRepetidos = {}
+    for documento in documentsDictionary:
+        dictionary = {}
+        palabrasTokenizadas = []
         with open(documento, "r") as archivo:
             lineas = [linea.split() for linea in archivo]
 
-            for linea in lineas:
-                palabrasSinToken += linea
-            #print(palabrasSinToken)
 
+        for linea in lineas:
+            palabrasTokenizadas += linea
+        #print(palabrasTokenizadas)
 
-            for palabra in palabrasSinToken:
-                if palabra in dictionary:
-                    if not (documentsDictionary[documento] in dictionary[palabra]):
-                        dictionary[palabra] += [documentsDictionary[documento]]
-                else:
-                        dictionary[palabra] = [documentsDictionary[documento]]
-            #print(dictionary)
+        for palabra in palabrasTokenizadas:
+            if palabra in palabrasTokenizadas:
+                dictionary[palabra] = [documentsDictionary[documento]]
+
+        for palabra, index in dictionary.items():
+            if palabra not in diccionarioSinRepetidos.keys():
+                diccionarioSinRepetidos[palabra] = index
+    #print(diccionarioSinRepetidos)
+
+    for palabra, index in diccionarioSinRepetidos.items():
+        print(palabra, ':', index)
 
 
 if __name__ == "__main__":
     print('Leyendo Archivo...')
-    leerArchivo()
+    leerArchivos()
