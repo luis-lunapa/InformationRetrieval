@@ -42,7 +42,7 @@ class linked_list:
             node = node.next
 
 
-
+linkedList = linked_list()
 
 
 documentsDictionary = { "1.txt" :1,
@@ -58,15 +58,9 @@ documentsDictionary = { "1.txt" :1,
 
 
 def leerArchivos():
-    #arregloGeneral = []
-    #for documento, indice in documentsDictionary:
-    #    arregloGeneral = []
-    #    with open(documento, "r") as archivo:
-    #        arregloGeneral += [palabra for linea in archivo for palabra in linea.split() ]
-    #    return arregloGeneral
-
-    arregloGeneral = []
+    aBuscar = "atom"
     diccionarioSinRepetidos = {}
+    diccionarioConPosting = {} #Que la llave sea su palabra y el value la lista ligada de index donde aàrece la palabra.
     for documento in documentsDictionary:
         dictionary = {}
         palabrasTokenizadas = []
@@ -81,14 +75,20 @@ def leerArchivos():
         for palabra in palabrasTokenizadas:
             if palabra in palabrasTokenizadas:
                 dictionary[palabra] = [documentsDictionary[documento]]
+        #print(dictionary)
+
+        #GENERAR POSTING LIST AQUI DE TODAS LAS PALABRAS EN EL DICCIONARIO.
+        #Que quede asi {'atom': [[1] => [3]], 'brutus': [[1] => [2] => [3]]}
+
 
         for palabra, index in dictionary.items():
             if palabra not in diccionarioSinRepetidos.keys():
                 diccionarioSinRepetidos[palabra] = index
     #print(diccionarioSinRepetidos)
 
-    for palabra, index in diccionarioSinRepetidos.items():
-        print(palabra, ':', index)
+    #for palabra, index in diccionarioSinRepetidos.items():
+    #    print(palabra)
+
 
 
 if __name__ == "__main__":
