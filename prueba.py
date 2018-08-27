@@ -43,52 +43,39 @@ class linked_list:
 
 
 
+linkedList = linked_list()
+
+
 documentsDictionary = { "1.txt" :1,
                         "2.txt" :2,
                         "3.txt" :3
                         }
 
-    #Meter todas las palabras en un arreglo
-    #Eliminar duplicados en un array.
-    #
 
-#Abrir documentos
-
-
-def leerArchivos():
-    diccionarioSinRepetidos = {}
-    arregloConPosting = [] #Que la llave sea su palabra y el value la lista ligada de index donde aàrece la palabra.
-    for documento in documentsDictionary:
-        dictionary = {}
-        palabrasTokenizadas = []
+def leerArchivo():
+    dictionary = {}
+    for documento in documentsDictionary:                 #Iteramos sobre cada documento en el documentsDictionary.
+        palabrasSinToken = []                             #Creamos arreglo de palabras sin tokenizar.
         with open(documento, "r") as archivo:
             lineas = [linea.split() for linea in archivo]
 
-
-        for linea in lineas:
-            palabrasTokenizadas += linea
-        #print(palabrasTokenizadas)
-
-        for palabra in palabrasTokenizadas:
-            if palabra in palabrasTokenizadas:
-                dictionary[palabra] = [documentsDictionary[documento]]
-        #print(dictionary)
-
-        #GENERAR POSTING LIST AQUI DE TODAS LAS PALABRAS EN EL DICCIONARIO.
-        #Que quede asi {'atom': [[1] => [3]], 'brutus': [[1] => [2] => [3]]}
-
-        for palabra, index in dictionary.items():
-            if palabra not in diccionarioSinRepetidos.keys():
-                diccionarioSinRepetidos[palabra] = index
-        arregloConPosting.append(dictionary)
-    print(arregloConPosting)
+            for linea in lineas:
+                palabrasSinToken += linea
+            #print(palabrasSinToken)
 
 
-    #for palabra, index in diccionarioSinRepetidos.items():
-    #    print(palabra)
+            for palabra in palabrasSinToken:
+                ll = linked_list()
+                if palabra in dictionary:
+                    if not (documentsDictionary[documento] in dictionary[palabra]):
+                        dictionary[palabra] += [(documentsDictionary[documento])]
+                else:
+                        dictionary[palabra] = [(documentsDictionary[documento])]
+
+            print(dictionary)
 
 
 
 if __name__ == "__main__":
     print('Leyendo Archivo...')
-    leerArchivos()
+    leerArchivo()
