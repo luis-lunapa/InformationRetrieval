@@ -46,9 +46,9 @@ class linked_list:
 linkedList = linked_list()
 
 
-documentsDictionary = { "1.txt" :1,
-                        "2.txt" :2,
-                        "3.txt" :3
+documentsDictionary = { "documento1.txt" :1,
+                        "documento2.txt" :2,
+                        "documento3.txt" :3
                         }
 
 
@@ -71,21 +71,45 @@ def leerArchivo():
                 else:
                         dictionary[palabra] = [(documentsDictionary[documento])]
 
-    #for palabra, index in dictionary.items():
-    #    print(palabra,'=>', index)
+    for palabra, index in dictionary.items():
+        print(palabra,'=>', index)
     return(dictionary)
 
-def query(diccionario):
-    arregloPalabras = ['sillon', 'atom']
+def queryAND(diccionario, palabra1, palabra2):
+    arregloPalabras = [palabra1, palabra2]
     for elemento in arregloPalabras:
         if elemento in diccionario:
             print(elemento, '=>',diccionario[elemento])
 
+def queryBrutus(diccionario):
+    postingBrutus = None
+    for elemento in diccionario:
+        if elemento == "soon":
+            postingBrutus = (diccionario[elemento])
+    print(postingBrutus)
+    return(postingBrutus)
+
+def queryAtom(diccionario):
+    postingAtom = None
+    for elemento in diccionario:
+        if elemento == "key":
+            postingAtom = (diccionario[elemento])
+    print(postingAtom)
+    return(postingAtom)
 
 
+def intersect(post1, post2):
+    answer = []
+    for elemento in post1:
+        if elemento in post2:
+            answer.append(elemento)
+    print(answer)
 
 
 if __name__ == "__main__":
     print('Leyendo Archivo...')
     diccionario = leerArchivo()
-    query(diccionario)
+    postingBrutus = queryBrutus(diccionario)
+    postingAtom = queryAtom(diccionario)
+    intersect(postingBrutus, postingAtom)
+    #queryAND(diccionario, "sillon", "brutus")
