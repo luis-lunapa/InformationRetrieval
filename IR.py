@@ -84,8 +84,8 @@ def leerArchivos():
     print(arregloConPosting)
 
 
-    #for palabra, index in diccionarioSinRepetidos.items():
-    #    print(palabra)
+    for palabra, index in diccionarioSinRepetidos.items():
+        print(palabra,':', index)
 
 
 

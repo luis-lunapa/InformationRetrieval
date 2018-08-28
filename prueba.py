@@ -63,7 +63,6 @@ def leerArchivo():
                 palabrasSinToken += linea
             #print(palabrasSinToken)
 
-
             for palabra in palabrasSinToken:
                 ll = linked_list()
                 if palabra in dictionary:
@@ -72,10 +71,21 @@ def leerArchivo():
                 else:
                         dictionary[palabra] = [(documentsDictionary[documento])]
 
-            print(dictionary)
+    #for palabra, index in dictionary.items():
+    #    print(palabra,'=>', index)
+    return(dictionary)
+
+def query(diccionario):
+    arregloPalabras = ['sillon', 'atom']
+    for elemento in arregloPalabras:
+        if elemento in diccionario:
+            print(elemento, '=>',diccionario[elemento])
+
+
 
 
 
 if __name__ == "__main__":
     print('Leyendo Archivo...')
-    leerArchivo()
+    diccionario = leerArchivo()
+    query(diccionario)
