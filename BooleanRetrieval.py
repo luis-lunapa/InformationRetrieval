@@ -71,31 +71,32 @@ def leerArchivo():
                 else:
                         dictionary[palabra] = [(documentsDictionary[documento])]
 
-    for palabra, index in dictionary.items():
-        print(palabra,'=>', index)
+    #for palabra, index in dictionary.items():
+    #    print(palabra,'=>', index)
     return(dictionary)
 
 def queryAND(diccionario, palabra1, palabra2):
-    arregloPalabras = [palabra1, palabra2]
-    for elemento in arregloPalabras:
-        if elemento in diccionario:
-            print(elemento, '=>',diccionario[elemento])
+        print("Buscando",palabra1,'y', palabra2,'...')
+        if (palabra1 and palabra2) in diccionario:
+            print('Encontradas en:')
+            print(palabra1, '=>',diccionario[palabra1],'\n', palabra2, '=>',diccionario[palabra2])
+        else: print("No hay coincidencias")
 
-def queryBrutus(diccionario):
-    postingBrutus = None
+def query1(diccionario, aBuscar):
+    posting1 = None
     for elemento in diccionario:
-        if elemento == "soon":
-            postingBrutus = (diccionario[elemento])
-    print(postingBrutus)
-    return(postingBrutus)
+        if elemento == aBuscar:
+            posting1 = (diccionario[elemento])
+    print(aBuscar, '-->',posting1)
+    return(posting1)
 
-def queryAtom(diccionario):
-    postingAtom = None
+def query2(diccionario, aBuscar):
+    posting2 = None
     for elemento in diccionario:
-        if elemento == "key":
-            postingAtom = (diccionario[elemento])
-    print(postingAtom)
-    return(postingAtom)
+        if elemento == aBuscar:
+            posting2 = (diccionario[elemento])
+    print(aBuscar, '-->',posting2)
+    return(posting2)
 
 
 def intersect(post1, post2):
@@ -103,13 +104,13 @@ def intersect(post1, post2):
     for elemento in post1:
         if elemento in post2:
             answer.append(elemento)
-    print(answer)
+    print("Se intersectan en:", answer)
 
 
 if __name__ == "__main__":
     print('Leyendo Archivo...')
     diccionario = leerArchivo()
-    postingBrutus = queryBrutus(diccionario)
-    postingAtom = queryAtom(diccionario)
-    intersect(postingBrutus, postingAtom)
-    #queryAND(diccionario, "sillon", "brutus")
+    posting1 = query1(diccionario, "soon")
+    posting2 = query2(diccionario, "key")
+    intersect(posting1, posting2)
+    #queryAND(diccionario, "sillon", "atom")
