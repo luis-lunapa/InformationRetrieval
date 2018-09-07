@@ -71,8 +71,8 @@ def leerArchivo():
                 else:
                         dictionary[palabra] = [(documentsDictionary[documento])]
 
-    #for palabra, index in dictionary.items():
-    #    print(palabra,'=>', index)
+    for palabra, index in dictionary.items():
+        print(palabra,'=>', index)
     return(dictionary)
 
 def queryAND(diccionario, palabra1, palabra2):
