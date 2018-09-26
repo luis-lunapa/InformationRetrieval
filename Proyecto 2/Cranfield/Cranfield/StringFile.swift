@@ -19,7 +19,7 @@ class StringFile {
         array = []
         next = 0
         
-       // filePath = Bundle.main.path(forResource: "cran", ofType: "txt") ?? "Valio verga"
+       //filePath = Bundle.main.path(forResource: "cran", ofType: "txt") ?? "Valio verga"
         url = URL(fileURLWithPath: strUrl)
     }
     
