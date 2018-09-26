@@ -25,6 +25,7 @@ var t = [String]()
 var queryClean = [String]()
 
 
+
 cranField = file.array!
 
 
@@ -95,12 +96,13 @@ while x < cran.count {
 /// Quitar puntos, saltos de linea, comas, parentesis, apostrofes.
 for tx in text {
     let a = tx.replacingOccurrences(of: ".", with: "")
-    let b = a.replacingOccurrences(of: "\n", with: "")
+    let b = a.replacingOccurrences(of: "\n", with: " ")
     let c = b.replacingOccurrences(of: ",", with: "")
     let d = c.replacingOccurrences(of: ")", with: "")
     let e = d.replacingOccurrences(of: "(", with: "")
     let f = e.replacingOccurrences(of: "'", with: "")
     let g = f.replacingOccurrences(of: "/", with: "")
+    
     
     
     t.append(g)
@@ -127,7 +129,7 @@ func leerTextoQuery(desde: Int, arr: [String]) -> String {
 }
 
 //var queriesFile = StringFile(strUrl: "/Users/luisluna/Google Drive/Universidad/Information Retrieval/Proyecto 2/Cranfield/Cranfield/queries.txt")
-var queriesFile: StringFile = StringFile(strUrl: "/Users/victoredu96/Desktop/GitHub/InformationRetrieval/Proyecto 2/Cranfield/Cranfield/cran.txt")
+var queriesFile: StringFile = StringFile(strUrl: "/Users/victoredu96/Desktop/GitHub/InformationRetrieval/Proyecto 2/Cranfield/Cranfield/queries.txt")
 queriesFile.open()
 var queriesStr = queriesFile.dataString!
 
@@ -178,15 +180,15 @@ for qr in textQuery {
 }
 
 
-
-
 //print(queryClean)
 //print("Index query \(indexQuery.count)")
 //print("Index query \(textQuery)")
 var uniqueText = [[String]]()
+var queriesToken = [[String]]()
 
 var diccionarioText = [String:Int]()
-///print(text)
+var diccionarioQuery = [String:Int]()
+//print(text)
 for doc in text {
     let words = doc.components(separatedBy: " ")
 //    print(words.count)
@@ -195,12 +197,14 @@ for doc in text {
     uniqueText.append(unique)
 //    print(unique.count)
 //    print("······································r")
-    
-    
-    
-    
 }
+for quer in queryClean {
+    let queries = quer.components(separatedBy: " ")
+    queriesToken.append(queries)
+}
+print(queriesToken)
 
+/*---------Checar Terminos En Cada Documento---------*/
 func checkTermIn(doc: [[String]], term: String) -> Int {
     var tet = 0
     for t in doc {
@@ -213,28 +217,39 @@ func checkTermIn(doc: [[String]], term: String) -> Int {
         
     }
     return tet
-    
 }
 
 //print(uniqueText)
 for doc in uniqueText {
-    
     for term in doc {
         var t: Int = 0
-        
         t += checkTermIn(doc: uniqueText, term: term)
-        
-
         diccionarioText[term] = t
-    
-       
     }
-   
 }
-for (key, value) in diccionarioText {
-    print("\(key) => \(value)")
+
+
+// CALCULAR FORMULA
+var idfDic = [String:Double]()
+for (key,_) in diccionarioText {
+    let a = text.count / diccionarioText[key]!
+    //print("a = \(text.count) / \(diccionarioText[key]!)")
+    idfDic[key] = log10(Double(a))
+    
 }
  //print("\(diccionarioText)")
+
+for (key, value) in idfDic {
+    //print("\(key) => \(value)")
+}
+
+
+
+func similarityCoeficient(query: [String], doc: [String:Double]){
+    
+}
+/*------------------------------------------------------------*/
+
 
 struct Doc {
     var index: String
