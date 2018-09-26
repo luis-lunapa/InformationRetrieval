@@ -8,8 +8,8 @@
 
 import Foundation
 import NaturalLanguage
-var file: StringFile = StringFile(strUrl: "/Users/luisluna/Google Drive/Universidad/Information Retrieval/Proyecto 2/Cranfield/Cranfield/cran.txt")
-// var file: StringFile = StringFile(strUrl: "/Users/victoredu96/Desktop/GitHub/InformationRetrieval/Proyecto 2/Cranfield/Cranfield/cran.txt")
+//var file: StringFile = StringFile(strUrl: "/Users/luisluna/Google Drive/Universidad/Information Retrieval/Proyecto 2/Cranfield/Cranfield/cran.txt")
+var file: StringFile = StringFile(strUrl: "/Users/victoredu96/Desktop/GitHub/InformationRetrieval/Proyecto 2/Cranfield/Cranfield/cran.txt")
 var cranField = [String]()
 
 file.open()
@@ -22,6 +22,8 @@ var b = [String]()
 var text = [String]()
 
 var t = [String]()
+var queryClean = [String]()
+
 
 cranField = file.array!
 
@@ -90,7 +92,7 @@ while x < cran.count {
 //print("TITULOS \(title.count)")
 //print("TEXTOS \(text.count)")
 
-/// Quitar puntos
+/// Quitar puntos, saltos de linea, comas, parentesis, apostrofes.
 for tx in text {
     let a = tx.replacingOccurrences(of: ".", with: "")
     let b = a.replacingOccurrences(of: "\n", with: "")
@@ -101,7 +103,7 @@ for tx in text {
     let g = f.replacingOccurrences(of: "/", with: "")
     
     
-    t.append(a)
+    t.append(g)
 }
 
 text = t
@@ -124,7 +126,8 @@ func leerTextoQuery(desde: Int, arr: [String]) -> String {
     return texto
 }
 
-var queriesFile = StringFile(strUrl: "/Users/luisluna/Google Drive/Universidad/Information Retrieval/Proyecto 2/Cranfield/Cranfield/queries.txt")
+//var queriesFile = StringFile(strUrl: "/Users/luisluna/Google Drive/Universidad/Information Retrieval/Proyecto 2/Cranfield/Cranfield/queries.txt")
+var queriesFile: StringFile = StringFile(strUrl: "/Users/victoredu96/Desktop/GitHub/InformationRetrieval/Proyecto 2/Cranfield/Cranfield/cran.txt")
 queriesFile.open()
 var queriesStr = queriesFile.dataString!
 
@@ -161,16 +164,77 @@ while p < q.count {
 }
 
 
-print("Index query \(textQuery.count)")
- print("Index query \(indexQuery.count)")
+for qr in textQuery {
+    let h = qr.replacingOccurrences(of: ".", with: "")
+    let i = h.replacingOccurrences(of: "\n", with: "")
+    let j = i.replacingOccurrences(of: ",", with: "")
+    let k = j.replacingOccurrences(of: ")", with: "")
+    let l = k.replacingOccurrences(of: "(", with: "")
+    let m = l.replacingOccurrences(of: "'", with: "")
+    let n = m.replacingOccurrences(of: "/", with: "")
+    
+    
+    queryClean.append(n)
+}
 
 
 
 
+//print(queryClean)
+//print("Index query \(indexQuery.count)")
+//print("Index query \(textQuery)")
+var uniqueText = [[String]]()
 
+var diccionarioText = [String:Int]()
+///print(text)
+for doc in text {
+    let words = doc.components(separatedBy: " ")
+//    print(words.count)
+//    print("-----------------------------------")
+    let unique = Array(Set(words))
+    uniqueText.append(unique)
+//    print(unique.count)
+//    print("······································r")
+    
+    
+    
+    
+}
 
+func checkTermIn(doc: [[String]], term: String) -> Int {
+    var tet = 0
+    for t in doc {
+        for f in t {
+            if f == term {
+                tet += 1
+                break
+            }
+        }
+        
+    }
+    return tet
+    
+}
 
+//print(uniqueText)
+for doc in uniqueText {
+    
+    for term in doc {
+        var t: Int = 0
+        
+        t += checkTermIn(doc: uniqueText, term: term)
+        
 
+        diccionarioText[term] = t
+    
+       
+    }
+   
+}
+for (key, value) in diccionarioText {
+    print("\(key) => \(value)")
+}
+ //print("\(diccionarioText)")
 
 struct Doc {
     var index: String
