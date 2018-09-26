@@ -82,6 +82,13 @@ def queryAND(diccionario, palabra1, palabra2):
             print(palabra1, '=>',diccionario[palabra1],'\n', palabra2, '=>',diccionario[palabra2])
         else: print("No hay coincidencias")
 
+def queryANDNOT(diccionario, palabra1, palabra2):
+        print("Buscando",palabra1,'y', palabra2,'...')
+        if (palabra1 and not palabra2) in diccionario:
+            print('Encontradas en:')
+            print(palabra1, '=>',diccionario[palabra1],'\n', palabra2, '=>',diccionario[palabra2])
+        else: print("No hay coincidencias")
+
 def query1(diccionario, aBuscar):
     posting1 = None
     for elemento in diccionario:
@@ -110,7 +117,10 @@ def intersect(post1, post2):
 if __name__ == "__main__":
     print('Leyendo Archivo...')
     diccionario = leerArchivo()
-    posting1 = query1(diccionario, "soon")
-    posting2 = query2(diccionario, "key")
+    print("-----------------------------")
+    posting1 = query1(diccionario, "cover")
+    posting2 = query2(diccionario, "late")
+    print("-----------------------------")
     intersect(posting1, posting2)
-    #queryAND(diccionario, "sillon", "atom")
+    #queryAND(diccionario, "soon", "key")
+    queryANDNOT(diccionario, "cover", "late")
