@@ -187,6 +187,7 @@ var uniqueText = [[String]]()
 var queriesToken = [[String]]()
 
 var diccionarioText = [String:Int]()
+var diccionarioText2 = [String:[Int:Int]]()
 //print(text)
 for doc in text {
     let words = doc.components(separatedBy: " ")
@@ -201,7 +202,7 @@ for quer in queryClean {
     let queries = quer.components(separatedBy: " ")
     queriesToken.append(queries)
 }
-//print(queriesToken)
+
 
 /*---------Checar Terminos En Cada Documento---------*/
 func checkTermIn(doc: [[String]], term: String) -> Int {
@@ -226,6 +227,31 @@ for doc in uniqueText {
         diccionarioText[term] = t
     }
 }
+
+for doc in uniqueText {
+    let doc_idx = uniqueText.firstIndex(of: doc)!
+    for term in doc {
+        if term == "algebraic"{
+            print(1)
+        }
+        if diccionarioText2[term] == nil {
+            diccionarioText2[term] = [doc_idx:1]
+            //diccionarioText2.updateValue([doc_idx : 1], forKey: term)
+        } else {
+            if diccionarioText2[term]![doc_idx] == nil {
+                diccionarioText2[term]!.updateValue(1, forKey: doc_idx)
+            } else {
+                let appears = diccionarioText2[term]![doc_idx]! + 1
+                if term == "algebraic" {
+                    print(appears)
+                }
+                diccionarioText2[term]![doc_idx]! = appears
+            }
+        }
+    }
+}
+
+print(diccionarioText2)
 
 
 // CALCULAR FORMULA
@@ -253,17 +279,34 @@ for (key, value) in idfDic {
     }
 }
 
+typealias queryConIDF = (String,Double)
+var queryWithIDFArray = [[queryConIDF]]()
 //print(idfDicQ)
 for (key, value) in idfDicQ {
     //print("\(key) => \(value)")
 }
 
+var arregloConDick = [String:Double]()
+for queries in queriesToken {
+    for term in queries {
+        for (key, value) in idfDicQ {
+            if term.contains(key) {
+                arregloConDick[term] = value
+            }
+        }
+    }
+}
+//print(arregloConDick)
+//print(uniqueText)
 
 
-
-func similarityCoeficient(query: [String], doc: [String:Double]){
+func similarityCoeficient(queryIDF: [String:Double], docIDF: [String:Double], textoIndexado: [[String]], queriesToken: [[String]]){
     
 }
+
+similarityCoeficient(queryIDF: idfDicQ, docIDF: idfDic, textoIndexado: uniqueText, queriesToken: queriesToken)
+
+
 /*------------------------------------------------------------*/
 
 
