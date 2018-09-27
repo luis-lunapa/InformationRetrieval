@@ -168,7 +168,7 @@ while p < q.count {
 
 for qr in textQuery {
     let h = qr.replacingOccurrences(of: ".", with: "")
-    let i = h.replacingOccurrences(of: "\n", with: "")
+    let i = h.replacingOccurrences(of: "\n", with: " ")
     let j = i.replacingOccurrences(of: ",", with: "")
     let k = j.replacingOccurrences(of: ")", with: "")
     let l = k.replacingOccurrences(of: "(", with: "")
@@ -187,7 +187,6 @@ var uniqueText = [[String]]()
 var queriesToken = [[String]]()
 
 var diccionarioText = [String:Int]()
-var diccionarioQuery = [String:Int]()
 //print(text)
 for doc in text {
     let words = doc.components(separatedBy: " ")
@@ -202,7 +201,7 @@ for quer in queryClean {
     let queries = quer.components(separatedBy: " ")
     queriesToken.append(queries)
 }
-print(queriesToken)
+//print(queriesToken)
 
 /*---------Checar Terminos En Cada Documento---------*/
 func checkTermIn(doc: [[String]], term: String) -> Int {
@@ -242,6 +241,23 @@ for (key,_) in diccionarioText {
 for (key, value) in idfDic {
     //print("\(key) => \(value)")
 }
+
+var idfDicQ = [String:Double]()
+for (key, value) in idfDic {
+    for elementQuery in queriesToken {
+        for term in elementQuery {
+            if term == key {
+                idfDicQ[term] = value
+            }
+        }
+    }
+}
+
+//print(idfDicQ)
+for (key, value) in idfDicQ {
+    //print("\(key) => \(value)")
+}
+
 
 
 
