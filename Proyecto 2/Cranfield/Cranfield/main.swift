@@ -290,12 +290,24 @@ for queries in queriesToken {
         }
     }
 }
+var textWithIDFArray = [[Int: [String: Double]]]()
+for texto in uniqueText {
+    let doc_idx = uniqueText.firstIndex(of: texto)!
+    for term in texto {
+        for (key, value) in idfDic {
+            if term == key {
+                textWithIDFArray.append([doc_idx:[term:value]])
+            }
+        }
+    }
+}
+print(diccionarioText)
 //print(queryWithIDFArray)
 
 for entero in queryWithIDFArray {
     for (num, x) in entero{
         for (cadena, numer) in x{
-            print("\(num): \(cadena) => \(numer)")
+            //print("\(num): \(cadena) => \(numer)")
         }
     }
 }
