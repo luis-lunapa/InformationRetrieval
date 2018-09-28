@@ -232,7 +232,7 @@ for doc in uniqueText {
     let doc_idx = uniqueText.firstIndex(of: doc)!
     for term in doc {
         if term == "algebraic"{
-            print(1)
+            //print(1)
         }
         if diccionarioText2[term] == nil {
             diccionarioText2[term] = [doc_idx:1]
@@ -243,7 +243,7 @@ for doc in uniqueText {
             } else {
                 let appears = diccionarioText2[term]![doc_idx]! + 1
                 if term == "algebraic" {
-                    print(appears)
+                   //print(appears)
                 }
                 diccionarioText2[term]![doc_idx]! = appears
             }
@@ -251,7 +251,7 @@ for doc in uniqueText {
     }
 }
 
-print(diccionarioText2)
+//print(diccionarioText2)
 
 
 // CALCULAR FORMULA
@@ -279,46 +279,47 @@ for (key, value) in idfDic {
     }
 }
 
-typealias queryConIDF = (String,Double)
-var queryWithIDFArray = [[queryConIDF]]()
-//print(idfDicQ)
-for (key, value) in idfDicQ {
-    //print("\(key) => \(value)")
-}
-
-var arregloConDick = [String:Double]()
+var queryWithIDFArray = [[Int: [String: Double]]]()
 for queries in queriesToken {
+    let doc_idx = queriesToken.firstIndex(of: queries)!
     for term in queries {
         for (key, value) in idfDicQ {
-            if term.contains(key) {
-                arregloConDick[term] = value
+            if term == key {
+                queryWithIDFArray.append([doc_idx: [term:value]])
             }
         }
     }
 }
-//print(arregloConDick)
-//print(uniqueText)
+//print(queryWithIDFArray)
 
-
-func similarityCoeficient(queryIDF: [String:Double], docIDF: [String:Double], textoIndexado: [[String]], queriesToken: [[String]]){
-    
+for entero in queryWithIDFArray {
+    for (num, x) in entero{
+        for (cadena, numer) in x{
+            print("\(num): \(cadena) => \(numer)")
+        }
+    }
 }
 
-similarityCoeficient(queryIDF: idfDicQ, docIDF: idfDic, textoIndexado: uniqueText, queriesToken: queriesToken)
+
+//print(textQuery)
+//print(queryClean)
+//print(queriesToken)
+//print(uniqueText)
+
 
 
 /*------------------------------------------------------------*/
 
 
-struct Doc {
+struct queryConIDf {
     var index: String
-    var title: String
-    var text: String
+    var query: String
+    var value: Double
     
-    init (index: String, title: String, text: String) {
+    init (index: String, query: String, value: Double) {
         self.index = index
-        self.title = title
-        self.text = text
+        self.query = query
+        self.value = value
     
     }
 }
