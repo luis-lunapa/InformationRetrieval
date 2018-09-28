@@ -102,10 +102,11 @@ for tx in text {
     let e = d.replacingOccurrences(of: "(", with: "")
     let f = e.replacingOccurrences(of: "'", with: "")
     let g = f.replacingOccurrences(of: "/", with: "")
+    let y = g.replacingOccurrences(of: "  ", with: "")
     
     
     
-    t.append(g)
+    t.append(y)
 }
 
 text = t
@@ -167,6 +168,7 @@ while p < q.count {
 
 
 for qr in textQuery {
+    
     let h = qr.replacingOccurrences(of: ".", with: "")
     let i = h.replacingOccurrences(of: "\n", with: " ")
     let j = i.replacingOccurrences(of: ",", with: "")
@@ -174,9 +176,10 @@ for qr in textQuery {
     let l = k.replacingOccurrences(of: "(", with: "")
     let m = l.replacingOccurrences(of: "'", with: "")
     let n = m.replacingOccurrences(of: "/", with: "")
+    let z = n.replacingOccurrences(of: "  ", with: "")
     
     
-    queryClean.append(n)
+    queryClean.append(z)
 }
 
 
@@ -185,18 +188,16 @@ for qr in textQuery {
 //print("Index query \(textQuery)")
 var uniqueText = [[String]]()
 var queriesToken = [[String]]()
+var textToken = [[String]]()
 
 var diccionarioText = [String:Int]()
 var diccionarioText2 = [String:[Int:Int]]()
 //print(text)
 for doc in text {
     let words = doc.components(separatedBy: " ")
-//    print(words.count)
-//    print("-----------------------------------")
     let unique = Array(Set(words))
     uniqueText.append(unique)
-//    print(unique.count)
-//    print("······································r")
+    textToken.append(words)
 }
 for quer in queryClean {
     let queries = quer.components(separatedBy: " ")
@@ -291,8 +292,8 @@ for queries in queriesToken {
     }
 }
 var textWithIDFArray = [[Int: [String: Double]]]()
-for texto in uniqueText {
-    let doc_idx = uniqueText.firstIndex(of: texto)!
+for texto in textToken {
+    let doc_idx = textToken.firstIndex(of: texto)!
     for term in texto {
         for (key, value) in idfDic {
             if term == key {
@@ -301,10 +302,11 @@ for texto in uniqueText {
         }
     }
 }
-print(diccionarioText)
+//print(textWithIDFArray)
+//print(diccionarioText)
 //print(queryWithIDFArray)
 
-for entero in queryWithIDFArray {
+for entero in textWithIDFArray {
     for (num, x) in entero{
         for (cadena, numer) in x{
             //print("\(num): \(cadena) => \(numer)")
@@ -318,7 +320,59 @@ for entero in queryWithIDFArray {
 //print(queriesToken)
 //print(uniqueText)
 
+func innerProduct(idfQuery: [[Int: [String: Double]]], idfDocumentos: [[Int: [String: Double]]]) -> [[Int:Double]] {
+    var idfFinal = [[Int: Double]]()
+   // var s: String = "D1": 0.31
+    var arr1 = [String]()
+    var arr2 = [Double]()
+    var arrResult = [Double]()
 
+
+    for query in idfQuery {
+        for (key, value) in query {
+            print(key)
+            for value2 in value {
+                arr1.append(value2)
+            }
+        }
+    }
+
+    for query in idfDocumentos {
+        for que in query.values {
+            for que2 in que.values {
+                arr2.append(que2)
+            }
+        }
+    }
+
+    var i = 0
+    var r: Double = 0.0
+    var j = 0
+    while i < arr1.count {
+        //idfFinal[i] +=
+        arrResult[i] = arr1[i] * arr2[i]
+        
+        if i == arr1.count - 1 {
+            for j in arrResult {
+                r += j
+            }
+            idfFinal.append([i:Double(j)])
+        }
+        
+       
+        i += 1
+    }
+    
+    
+
+
+
+
+
+    return idfFinal
+}
+
+innerProduct(idfQuery: queryWithIDFArray, idfDocumentos: textWithIDFArray)
 
 /*------------------------------------------------------------*/
 
