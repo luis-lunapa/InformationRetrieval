@@ -14,7 +14,18 @@ var cranField = [String]()
 
 file.open()
 var i = 0
-
+struct queryConIDf {
+    var index: Int
+    var query: String
+    var value: Double
+    
+    init (index: Int, query: String, value: Double) {
+        self.index = index
+        self.query = query
+        self.value = value
+        
+    }
+}
 var index = [String]()
 var title = [String]()
 var author = [String]()
@@ -103,9 +114,7 @@ for tx in text {
     let f = e.replacingOccurrences(of: "'", with: "")
     let g = f.replacingOccurrences(of: "/", with: "")
     let y = g.replacingOccurrences(of: "  ", with: "")
-    
-    
-    
+
     t.append(y)
 }
 
@@ -229,28 +238,28 @@ for doc in uniqueText {
     }
 }
 
-for doc in uniqueText {
-    let doc_idx = uniqueText.firstIndex(of: doc)!
-    for term in doc {
-        if term == "algebraic"{
-            //print(1)
-        }
-        if diccionarioText2[term] == nil {
-            diccionarioText2[term] = [doc_idx:1]
-            //diccionarioText2.updateValue([doc_idx : 1], forKey: term)
-        } else {
-            if diccionarioText2[term]![doc_idx] == nil {
-                diccionarioText2[term]!.updateValue(1, forKey: doc_idx)
-            } else {
-                let appears = diccionarioText2[term]![doc_idx]! + 1
-                if term == "algebraic" {
-                   //print(appears)
-                }
-                diccionarioText2[term]![doc_idx]! = appears
-            }
-        }
-    }
-}
+//for doc in uniqueText {
+//    let doc_idx = uniqueText.firstIndex(of: doc)!
+//    for term in doc {
+//        if term == "algebraic"{
+//            //print(1)
+//        }
+//        if diccionarioText2[term] == nil {
+//            diccionarioText2[term] = [doc_idx:1]
+//            //diccionarioText2.updateValue([doc_idx : 1], forKey: term)
+//        } else {
+//            if diccionarioText2[term]![doc_idx] == nil {
+//                diccionarioText2[term]!.updateValue(1, forKey: doc_idx)
+//            } else {
+//                let appears = diccionarioText2[term]![doc_idx]! + 1
+//                if term == "algebraic" {
+//                   //print(appears)
+//                }
+//                diccionarioText2[term]![doc_idx]! = appears
+//            }
+//        }
+//    }
+//}
 
 //print(diccionarioText2)
 
@@ -280,90 +289,40 @@ for (key, value) in idfDic {
     }
 }
 
-var queryWithIDFArray = [[Int: [String: Double]]]()
+var queryWithIDFArray = [[String: Double]]()
 for queries in queriesToken {
-    let doc_idx = queriesToken.firstIndex(of: queries)!
     for term in queries {
         for (key, value) in idfDicQ {
             if term == key {
-                queryWithIDFArray.append([doc_idx: [term:value]])
+                queryWithIDFArray.append([term:value])
             }
         }
     }
 }
-var textWithIDFArray = [[Int: [String: Double]]]()
+
+var textWithIDFArray = [[String: Double]]()
 for texto in textToken {
-    let doc_idx = textToken.firstIndex(of: texto)!
-    for term in texto {
-        for (key, value) in idfDic {
+    for (key, value) in idfDic {
+        for term in texto {
             if term == key {
-                textWithIDFArray.append([doc_idx:[term:value]])
+                textWithIDFArray.append([term:value])
             }
         }
     }
 }
+
+
 //print(textWithIDFArray)
 //print(diccionarioText)
-//print(queryWithIDFArray)
-
-for entero in textWithIDFArray {
-    for (num, x) in entero{
-        for (cadena, numer) in x{
-            //print("\(num): \(cadena) => \(numer)")
-        }
-    }
-}
-
+print(queryWithIDFArray)
 
 //print(textQuery)
 //print(queryClean)
 //print(queriesToken)
 //print(uniqueText)
 
-func innerProduct(idfQuery: [[Int: [String: Double]]], idfDocumentos: [[Int: [String: Double]]]) -> [[Int:Double]] {
+func innerProduct(idfQuery: [[String: Double]], idfDocumentos: [[String: Double]]) -> [[Int:Double]] {
     var idfFinal = [[Int: Double]]()
-   // var s: String = "D1": 0.31
-    var arr1 = [String]()
-    var arr2 = [Double]()
-    var arrResult = [Double]()
-
-
-    for query in idfQuery {
-        for (key, value) in query {
-            print(key)
-            for value2 in value {
-                arr1.append(value2)
-            }
-        }
-    }
-
-    for query in idfDocumentos {
-        for que in query.values {
-            for que2 in que.values {
-                arr2.append(que2)
-            }
-        }
-    }
-
-    var i = 0
-    var r: Double = 0.0
-    var j = 0
-    while i < arr1.count {
-        //idfFinal[i] +=
-        arrResult[i] = arr1[i] * arr2[i]
-        
-        if i == arr1.count - 1 {
-            for j in arrResult {
-                r += j
-            }
-            idfFinal.append([i:Double(j)])
-        }
-        
-       
-        i += 1
-    }
-    
-    
 
 
 
@@ -372,20 +331,9 @@ func innerProduct(idfQuery: [[Int: [String: Double]]], idfDocumentos: [[Int: [St
     return idfFinal
 }
 
-innerProduct(idfQuery: queryWithIDFArray, idfDocumentos: textWithIDFArray)
+//innerProduct(idfQuery: queryWithIDFArray, idfDocumentos: textWithIDFArray)
 
 /*------------------------------------------------------------*/
 
 
-struct queryConIDf {
-    var index: String
-    var query: String
-    var value: Double
-    
-    init (index: String, query: String, value: Double) {
-        self.index = index
-        self.query = query
-        self.value = value
-    
-    }
-}
+
