@@ -14,6 +14,18 @@ var cranField = [String]()
 
 file.open()
 var i = 0
+struct queryConIDf {
+    var index: Int
+    var query: String
+    var value: Double
+    
+    init (index: Int, query: String, value: Double) {
+        self.index = index
+        self.query = query
+        self.value = value
+        
+    }
+}
 var index = [String]()
 var title = [String]()
 var author = [String]()
@@ -109,6 +121,7 @@ for tx in text {
 text = t
 
 
+//print(text)
 
 ///////// **********************************
 ///////// *********************************\ LEER QUERIES
@@ -188,31 +201,15 @@ var uniqueText = [[String]]()
 var queriesToken = [[String]]()
 var textToken = [[String]]()
 
-var diccionarioText = [[String:Int]]()
+var diccionarioText = [String:Int]()
 var diccionarioText2 = [String:[Int:Int]]()
-
-
-
-
 //print(text)
 for doc in text {
     let words = doc.components(separatedBy: " ")
-    
     let unique = Array(Set(words))
     uniqueText.append(unique)
-    
     textToken.append(words)
-    
 }
-//for uni in uniqueText {
-//    for a in uni {
-//        print("\(a)")
-//    }
-//    print("------SIGUIENTE---------")
-//}
-
-//print("TEXT TOKEN =--->>> \(textToken.count)")
-
 for quer in queryClean {
     let queries = quer.components(separatedBy: " ")
     //print("QUERIESS \(queries)")
@@ -223,10 +220,8 @@ for quer in queryClean {
 //for q in queriesToken {
 //    for a in q {
 //        print(a)
-//
 //    }
-//
-//    print("-------------")
+//    //print()
 //}
 
 /*---------Checar Terminos En Cada Documento---------*/
@@ -245,178 +240,63 @@ func checkTermIn(doc: [[String]], term: String) -> Int {
 }
 
 //print(uniqueText)
-///TODO BIEN HASTA AQUI
-var tempDic = [String:Int]()
 for doc in uniqueText {
     for term in doc {
         var t: Int = 0
         t += checkTermIn(doc: uniqueText, term: term)
-        tempDic[term] = t
+        diccionarioText[term] = t
     }
-    diccionarioText.append(tempDic)
-    tempDic.removeAll()
 }
-
-
-
 
 // CALCULAR FORMULA
-var idfDic = [[String:Double]]()
-var ttempDic = [String: Double]()
-
-for documento in diccionarioText {
-    for (termino, veces) in documento {
-        
-        let a = text.count / veces
-        
-        //print("a = \(text.count) / \(diccionarioText[key]!)")
-        ttempDic[termino] = log10(Double(a))
-        
-    }
-    idfDic.append(ttempDic)
-    ttempDic.removeAll()
+var idfDic = [String:Double]()
+for (key,_) in diccionarioText {
+    let a = text.count / diccionarioText[key]!
+    //print("a = \(text.count) / \(diccionarioText[key]!)")
+    idfDic[key] = log10(Double(a))
+    
 }
 
 
-
-var idfDicQ = [[String: Double]]()
-var tempQDic = [String: Double]()
-
-
-
-
-for query in queriesToken {
-    
-    for term in query {
-        for doc in idfDic {
-            for (termDoc, valor) in doc {
-
-                if doc.keys.contains(term) {
-                    tempQDic[term] = doc[term]
-                } else {
-                    tempQDic[termDoc] = 0.0
-                }
+var idfDicQ = [String:Double]()
+for (key, value) in idfDic {
+    for elementQuery in queriesToken {
+        for term in elementQuery {
+            if term == key {
+                idfDicQ[term] = value
             }
-            
-            
         }
-        
-        
-        
     }
-    
-    idfDicQ.append(tempQDic)
-    tempQDic.removeAll()
-    
 }
 
-print("terminos Queries \(idfDicQ[0].count)")
-print("terminos Documentos \(idfDic[0].count)")
-
-var numeroDoc = 1
-var numeroQuery = 1
-
-var sc = [[Double: [Int: Int]]]() // Valor - Query - Documento
-var scTemp = [Double: [Int: Int]]()
-var suma = [Double]()
+print("idfDICQ \(idfDicQ)")
 
 
 
-
-
-
-for query in idfDicQ {
-    for doc in idfDic {
-        
-        for (term, val) in query {
-            
-            for (termDoc, valDoc) in doc {
+var queryWithIDFArray = [[String: Double]]()
+for queries in queriesToken {
+    for term in queries {
+        for (key, value) in idfDicQ {
+            if term == key {
+                queryWithIDFArray.append([term:value])
                 
-//                print("\(termDoc) => \(valDoc)")
-//                print("\(term) => \(val)")
-//                print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-                if term == termDoc {
-                    suma.append(val * valDoc)
-                    print("SUME \(val) + \(valDoc)")
-                }
             }
-
         }
-
-       numeroDoc += 1
-    } // FIN DOCUMENTO !
-    
-    
-    
-    
-//     numeroQuery += 1
-//    sc.append(scTemp)
-//    scTemp.removeAll()
-    
-    
-}
-//
-//for doc in idfDic {
-//    for (key, value) in doc {
-//        for query in queriesToken {
-//            for term in query {
-//                if term == key {
-//                    tempQDic[term] = value
-//                }
-//            }
-//            idfDic.append(tempQDic)
-//            tempQDic.removeAll()
-//
-//        }
-//    }
-//
-//}
-
-
-for a in idfDicQ {
-    print(a)
-    print("************************")
+    }
 }
 
-//var idfDicQ = [String:Double]()
-//for (key, value) in idfDic {
-//    for elementQuery in queriesToken {
-//        for term in elementQuery {
-//            if term == key {
-//                idfDicQ[term] = value
-//            }
-//        }
-//    }
-//}
 
 
-
-
-
-//var queryWithIDFArray = [[String: Double]]()
-//for queries in queriesToken {
-//    for term in queries {
-//        for (key, value) in idfDicQ {
-//            if term == key {
-//                queryWithIDFArray.append([term:value])
-//
-//            }
-//        }
-//    }
-//}
-//
-//
-//
-//var textWithIDFArray = [[String: Double]]()
-//for texto in textToken {
-//    for (key, value) in idfDic {
-//        for term in texto {
-//            if term == key {
-//                textWithIDFArray.append([term:value])
-//            }
-//        }
-//    }
-//}
+var textWithIDFArray = [[String: Double]]()
+for texto in textToken {
+    for (key, value) in idfDic {
+        for term in texto {
+            if term == key {
+                textWithIDFArray.append([term:value])
+            }
+        }
+    }
+}
 
 
 //print(textWithIDFArray)
