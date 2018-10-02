@@ -88,9 +88,6 @@ while x < cran.count {
     x += 1
     
 }
-//print("INDEX \(index.count)")
-//print("TITULOS \(title.count)")
-//print("TEXTOS \(text.count)")
 
 /// Quitar puntos, saltos de linea, comas, parentesis, apostrofes.
 for tx in text {
@@ -180,10 +177,6 @@ for qr in textQuery {
     queryClean.append(s)
 }
 
-
-//print(queryClean)
-//print("Index query \(indexQuery.count)")
-//print("Index query \(textQuery)")
 var uniqueText = [[String]]()
 var queriesToken = [[String]]()
 var textToken = [[String]]()
@@ -204,14 +197,6 @@ for doc in text {
     textToken.append(words)
     
 }
-//for uni in uniqueText {
-//    for a in uni {
-//        print("\(a)")
-//    }
-//    print("------SIGUIENTE---------")
-//}
-
-//print("TEXT TOKEN =--->>> \(textToken.count)")
 
 for quer in queryClean {
     let queries = quer.components(separatedBy: " ")
@@ -219,15 +204,6 @@ for quer in queryClean {
     queriesToken.append(queries)
     
 }
-//print("TOKEN == \(queriesToken)")
-//for q in queriesToken {
-//    for a in q {
-//        print(a)
-//
-//    }
-//
-//    print("-------------")
-//}
 
 /*---------Checar Terminos En Cada Documento---------*/
 func checkTermIn(doc: [[String]], term: String) -> Int {
@@ -295,122 +271,7 @@ for query in queriesToken {
     tempQDic.removeAll()
 }
 
-
-var numeroDoc = 1
-var numeroQuery = 1
-
-var sc = [[Double: [Int: Int]]]() // Valor - Query - Documento
-var scTemp = [Double: [Int: Int]]()
-var suma = [Double]()
-
-
-
-
-
-
-for query in idfDicQ {
-    for doc in idfDic {
-        
-        for (term, val) in query {
-            
-            for (termDoc, valDoc) in doc {
-                
-//                print("\(termDoc) => \(valDoc)")
-//                print("\(term) => \(val)")
-//                print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
-                if term == termDoc {
-                    suma.append(val * valDoc)
-                    //print("SUME \(val) + \(valDoc)")
-                }
-            }
-
-        }
-
-       numeroDoc += 1
-    } // FIN DOCUMENTO !
-    
-    
-    
-    
-//     numeroQuery += 1
-//    sc.append(scTemp)
-//    scTemp.removeAll()
-    
-    
-}
-//
-//for doc in idfDic {
-//    for (key, value) in doc {
-//        for query in queriesToken {
-//            for term in query {
-//                if term == key {
-//                    tempQDic[term] = value
-//                }
-//            }
-//            idfDic.append(tempQDic)
-//            tempQDic.removeAll()
-//
-//        }
-//    }
-//
-//}
-
-//print(idfDic)
-//for a in idfDicQ {
-//    print(a)
-//    print("************************")
-//}
-
-//var idfDicQ = [String:Double]()
-//for (key, value) in idfDic {
-//    for elementQuery in queriesToken {
-//        for term in elementQuery {
-//            if term == key {
-//                idfDicQ[term] = value
-//            }
-//        }
-//    }
-//}
-
-
-
-
-
-//var queryWithIDFArray = [[String: Double]]()
-//for queries in queriesToken {
-//    for term in queries {
-//        for (key, value) in idfDicQ {
-//            if term == key {
-//                queryWithIDFArray.append([term:value])
-//
-//            }
-//        }
-//    }
-//}
-//
-//
-//
-//var textWithIDFArray = [[String: Double]]()
-//for texto in textToken {
-//    for (key, value) in idfDic {
-//        for term in texto {
-//            if term == key {
-//                textWithIDFArray.append([term:value])
-//            }
-//        }
-//    }
-//}
-
-
-//print(textWithIDFArray)
-//print(diccionarioText)
-//print(queryWithIDFArray)
-
-//print(textQuery)
-//print(queryClean)
-//print(queriesToken)
-//print(uniqueText)
-
+var estructuraFinal = [(qry_num: Int, doc_num: Int, sc: Double)]()
 var qry_num = 0
 for query in queriesToken {
     for doc_num in 0..<diccionarioText.count {
@@ -419,36 +280,98 @@ for query in queriesToken {
             if let appereances = diccionarioText[doc_num][term] {
                 let idf = idfDic[doc_num][term]!
                 let idf_final = Double(appereances) * idf * idf
-                similarity_coeficient += idf_final
+                similarity_coeficient += idf_final / 10
 //                    print("\(term) -- \(appereances) -- \(idf) -- \(idf_final)")
 //                    print(similarity_coeficient)
             }
         }
-        print("Query: \(qry_num) Doc: \(doc_num) -> \(similarity_coeficient)")
+        //print("Query: \(qry_num) Doc: \(doc_num) -> \(similarity_coeficient)")
+        estructuraFinal.append((qry_num,doc_num, similarity_coeficient))
+        
     }
     qry_num += 1
 }
 
+/*------------------------------------------------------------*/
+var estructuraOrdenada = estructuraFinal.sorted(by: {$0.sc > $1.sc})
 
+// LEER DOCUMENTOS RELEVANTES
+var relevantesFile: StringFile = StringFile(strUrl: "/Users/victoredu96/Desktop/GitHub/InformationRetrieval/Proyecto 2/Cranfield/Cranfield/cranqrel.txt")
+relevantesFile.open()
+var relevantStr = relevantesFile.dataString!
+var relevantArray = relevantesFile.array!
 
-func innerProduct(idfQuery: [[String: Double]], idfDocumentos: [[String: Double]]) -> [[Int:Double]] {
-    var idfFinal = [[Int: Double]]()
+var relevantArrayBueno = [String]()
+
+for fila in relevantArray {
+    let comp = fila.components(separatedBy: " ")
+    for c in comp {
+        if c != "" {
+            relevantArrayBueno.append(c)
+        }
+    }
     
-    for query in idfDocumentos {
-        print(query)
-        print("------------------------")
+    //relevantArrayBueno.append(comp)
+    
+}
+
+
+var estructuraRel = [String: [String]]() // Documento: [Relevancia, "Query"]
+var listaTemp = [String]()
+
+
+for var val in 0..<relevantArrayBueno.count {
+    listaTemp.append(relevantArrayBueno[val + 1])
+    listaTemp.append(relevantArrayBueno[val + 2])
+    estructuraRel[relevantArrayBueno[val]] = listaTemp
+    listaTemp.removeAll()
+    
+    
+    val += 3
+    
+    if val + 3 == relevantArrayBueno.count - 1 {
+        break
+    }
+}
+
+
+//print("NNNNNN \(estructuraRel)")
+var estructuraFinal10 = [(qry_num: Int, doc_num: Int, sc: Double)]()
+for dobles in 0..<11{
+    estructuraFinal10.append(estructuraOrdenada[dobles])
+   
+}
+
+
+//for dobles in estructuraFinal10{
+//    print(dobles)
+//    print("------------------------------------")
+//}
+
+func presicion(estructuraFinal10: [(qry_num: Int, doc_num: Int, sc: Double)],
+               estructuraRel: [String: [String]]) -> [Int] {  //relevant and retrieved / retrieved
+    var presicionArray = [Int]()
+    
+    var contadorRetrieved = 0
+    var contadorRelevant = 0
+    
+    for tupla in estructuraFinal10 {
+        for tuplawer in estructuraRel {
+            if String(tupla.doc_num) == tuplawer.key {
+                contadorRelevant += 1
+                print(contadorRelevant)
+                print(("numero de doc: \(tupla.doc_num) == \(tuplawer.key)"))
+                print("-----------------")
+            }
+            contadorRetrieved += 1
+            print(contadorRetrieved)
+            print("-----------------")
+        }
     }
     
     
-    
-    
-    
-    return idfFinal
+    return presicionArray
 }
 
-//innerProduct(idfQuery: queryWithIDFArray, idfDocumentos: textWithIDFArray)
-
-/*------------------------------------------------------------*/
-
-
+presicion(estructuraFinal10: estructuraFinal10, estructuraRel: estructuraRel)
 
