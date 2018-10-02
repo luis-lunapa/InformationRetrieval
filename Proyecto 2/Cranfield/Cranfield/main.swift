@@ -8,8 +8,8 @@
 
 import Foundation
 import NaturalLanguage
-var file: StringFile = StringFile(strUrl: "/Users/luisluna/Google Drive/Universidad/Information Retrieval/Proyecto 2/Cranfield/Cranfield/cran.txt")
-//var file: StringFile = StringFile(strUrl: "/Users/victoredu96/Desktop/GitHub/InformationRetrieval/Proyecto 2/Cranfield/Cranfield/cran.txt")
+//var file: StringFile = StringFile(strUrl: "/Users/luisluna/Google Drive/Universidad/Information Retrieval/Proyecto 2/Cranfield/Cranfield/cran.txt")
+var file: StringFile = StringFile(strUrl: "/Users/victoredu96/Desktop/GitHub/InformationRetrieval/Proyecto 2/Cranfield/Cranfield/cran.txt")
 var cranField = [String]()
 
 file.open()
@@ -125,8 +125,8 @@ func leerTextoQuery(desde: Int, arr: [String]) -> String {
     return texto
 }
 
-var queriesFile = StringFile(strUrl: "/Users/luisluna/Google Drive/Universidad/Information Retrieval/Proyecto 2/Cranfield/Cranfield/queries.txt")
-//var queriesFile: StringFile = StringFile(strUrl: "/Users/victoredu96/Desktop/GitHub/InformationRetrieval/Proyecto 2/Cranfield/Cranfield/queries.txt")
+//var queriesFile = StringFile(strUrl: "/Users/luisluna/Google Drive/Universidad/Information Retrieval/Proyecto 2/Cranfield/Cranfield/queries.txt")
+var queriesFile: StringFile = StringFile(strUrl: "/Users/victoredu96/Desktop/GitHub/InformationRetrieval/Proyecto 2/Cranfield/Cranfield/queries.txt")
 queriesFile.open()
 var queriesStr = queriesFile.dataString!
 
@@ -283,35 +283,18 @@ var idfDicQ = [[String: Double]]()
 var tempQDic = [String: Double]()
 
 
-
-
 for query in queriesToken {
-    
     for term in query {
         for doc in idfDic {
-            for (termDoc, valor) in doc {
-
                 if doc.keys.contains(term) {
                     tempQDic[term] = doc[term]
-                } else {
-                    tempQDic[termDoc] = 0.0
                 }
-            }
-            
-            
         }
-        
-        
-        
     }
-    
     idfDicQ.append(tempQDic)
     tempQDic.removeAll()
-    
 }
 
-print("terminos Queries \(idfDicQ[0].count)")
-print("terminos Documentos \(idfDic[0].count)")
 
 var numeroDoc = 1
 var numeroQuery = 1
@@ -337,7 +320,7 @@ for query in idfDicQ {
 //                print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
                 if term == termDoc {
                     suma.append(val * valDoc)
-                    print("SUME \(val) + \(valDoc)")
+                    //print("SUME \(val) + \(valDoc)")
                 }
             }
 
@@ -372,11 +355,11 @@ for query in idfDicQ {
 //
 //}
 
-
-for a in idfDicQ {
-    print(a)
-    print("************************")
-}
+//print(idfDic)
+//for a in idfDicQ {
+//    print(a)
+//    print("************************")
+//}
 
 //var idfDicQ = [String:Double]()
 //for (key, value) in idfDic {
@@ -427,6 +410,24 @@ for a in idfDicQ {
 //print(queryClean)
 //print(queriesToken)
 //print(uniqueText)
+
+var qry_num = 0
+for query in queriesToken {
+    for doc_num in 0..<diccionarioText.count {
+        var similarity_coeficient = 0.0
+        for term in query {
+            if let appereances = diccionarioText[doc_num][term] {
+                let idf = idfDic[doc_num][term]!
+                let idf_final = Double(appereances) * idf * idf
+                similarity_coeficient += idf_final
+//                    print("\(term) -- \(appereances) -- \(idf) -- \(idf_final)")
+//                    print(similarity_coeficient)
+            }
+        }
+        print("Query: \(qry_num) Doc: \(doc_num) -> \(similarity_coeficient)")
+    }
+    qry_num += 1
+}
 
 
 
