@@ -31,6 +31,7 @@
 		7B1AF710214C3E8400F2C134 /* StringFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringFile.swift; sourceTree = "<group>"; };
 		7B408D4E21617C6B00C2F882 /* Copia.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = Copia.txt; sourceTree = "<group>"; };
 		7BD27B19215AD0B40002C5F9 /* queries.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = queries.txt; sourceTree = "<group>"; };
+		F51D42622163FFFC00BD9E01 /* cranqrel.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = cranqrel.txt; path = "/Users/victoredu96/Desktop/GitHub/InformationRetrieval/Proyecto 2/Cranfield/Cranfield/cranqrel.txt"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +66,7 @@
 			children = (
 				7B1AF708214C3E1300F2C134 /* main.swift */,
 				7B408D4E21617C6B00C2F882 /* Copia.txt */,
+				F51D42622163FFFC00BD9E01 /* cranqrel.txt */,
 				7B1AF70F214C3E6500F2C134 /* cran.txt */,
 				7BD27B19215AD0B40002C5F9 /* queries.txt */,
 				7B1AF710214C3E8400F2C134 /* StringFile.swift */,
@@ -257,7 +259,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7R5SGC6JP6;
+				DEVELOPMENT_TEAM = 3DRKDQYGLL;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 			};
@@ -267,7 +269,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 7R5SGC6JP6;
+				DEVELOPMENT_TEAM = 3DRKDQYGLL;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 			};

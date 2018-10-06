@@ -198,6 +198,10 @@ for doc in text {
     
 }
 
+func recall(relevant: Int, retrieved: Int) {
+    //print("Calculating Recall...")
+}
+
 for quer in queryClean {
     let queries = quer.components(separatedBy: " ")
     //print("QUERIESS \(queries)")
@@ -285,7 +289,7 @@ for query in queriesToken {
 //                    print(similarity_coeficient)
             }
         }
-        //print("Query: \(qry_num) Doc: \(doc_num) -> \(similarity_coeficient)")
+        print("Query: \(qry_num) Doc: \(doc_num) -> \(similarity_coeficient)")
         estructuraFinal.append((qry_num,doc_num, similarity_coeficient))
         
     }
@@ -343,10 +347,11 @@ for dobles in 0..<11{
 }
 
 
-//for dobles in estructuraFinal10{
-//    print(dobles)
-//    print("------------------------------------")
-//}
+for dobles in estructuraFinal10{
+    print("-----------------------------------------")
+    print("Numero De Query: \(dobles.qry_num)\nNumero De Documento: \(dobles.doc_num)\nSimilarity Coeficient: \(dobles.sc)")
+    print("-----------------------------------------")
+}
 
 func presicion(estructuraFinal10: [(qry_num: Int, doc_num: Int, sc: Double)],
                estructuraRel: [String: [String]]) -> [Int] {  //relevant and retrieved / retrieved
@@ -359,13 +364,9 @@ func presicion(estructuraFinal10: [(qry_num: Int, doc_num: Int, sc: Double)],
         for tuplawer in estructuraRel {
             if String(tupla.doc_num) == tuplawer.key {
                 contadorRelevant += 1
-                print(contadorRelevant)
-                print(("numero de doc: \(tupla.doc_num) == \(tuplawer.key)"))
-                print("-----------------")
+                recall(relevant: contadorRelevant, retrieved: contadorRetrieved)
             }
             contadorRetrieved += 1
-            print(contadorRetrieved)
-            print("-----------------")
         }
     }
     
